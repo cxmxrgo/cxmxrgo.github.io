@@ -1,0 +1,39 @@
+/* Carlos Eduardo de Camargo - 76214 */
+
+:root {
+    --bg-dark: #0a0a0a;
+    --bg-card: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: #a0aec0;
+    --accent: #6d28d9;
+    --accent-hover: #7c3aed;
+}
+
+body {
+    font-family: 'Neucha', cursive;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+}
+
+.section-selector-1, .section-selector-2, .section-selector-3, .section-selector-4, .section-selector-5 {
+    background: var(--bg-card);
+}
+
+.section-selector-2 h2, .section-selector-3 h2, .section-selector-5 h2, .section-selector-1 h2, .section-selector-4 h2 {
+    color: var(--accent);
+}
+
+.section-selector-4 .col-text p {
+    color: var(--text-primary);
+}
+
+header h1 {
+    font-size: var(--font-size-xxxl);
+    color: var(--accent);
+    letter-spacing: -1px;
+}
+header h2 {
+    font-size: var(--font-size-xxl);
+    color: var(--accent);
+    letter-spacing: -1px;
+}

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-S0THTGCJLD"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-S0THTGCJLD');
+            </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carlos Eduardo de Camargo | 76214 | Web/UI Designer Portfolio</title>
+    <meta name="description" content="Portfolio of Carlos Camargo, Web and UI Designer showcasing recent projects and design work.">
+    <link rel="preload" href="assets/img/pokemon.jpg" as="image">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">    
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">    
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">    
+    <link rel="manifest" href="assets/img/favicons/site.webmanifest">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent: #6d28d9;
+            --accent-hover: #7c3aed;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Hero */
+        header {
+            background: linear-gradient(135deg, #1a1a1a, #2d1b4d);
+            color: var(--text-primary);
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/img/pokemon.jpg') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+            filter: grayscale(30%) contrast(120%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            margin: 0 auto 32px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 0 25px rgba(109, 40, 217, 0.3);
+        }
+        
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: slideInTop 1s forwards 0.5s;
+            letter-spacing: -2px;
+            background: linear-gradient(45deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: slideInLeft 1s forwards 1s;
+            color: var(--text-secondary);
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 16px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards 2s;
+            font-family: var(--font-heading);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(109, 40, 217, 0.4);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            position: relative;
+            font-family: var(--font-heading);
+            letter-spacing: -1px;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+        
+        .skills-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            font-family: var(--font-heading);
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .skill {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(109, 40, 217, 0.2);
+            border-color: var(--accent);
+            background: linear-gradient(45deg, var(--bg-card), rgba(109, 40, 217, 0.1));
+        }
+        
+        .skill h3 {
+            font-size: 1.1rem;
+            margin-top: 12px;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+        
+        .skill-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        
+        .about-text {
+            flex: 1.2;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .about-img {
+            flex: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: none;
+            border: none;
+            box-shadow: none;
+            height: auto;
+            color: inherit;
+            border-radius: 0;
+            transition: none;
+        }
+        
+        .about-img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(109, 40, 217, 0.3);
+            border-color: var(--accent);
+        }
+        
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(109, 40, 217, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .project-img {
+            height: 220px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-img img {
+            transform: scale(1.05);
+        }
+        
+        .project-content {
+            padding: 24px;
+        }
+        
+        .project-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: var(--font-heading);
+        }
+        
+        .project-link:hover {
+            color: var(--accent-hover);
+            gap: 12px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+        }
+        
+        .skill-card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(109, 40, 217, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            background: linear-gradient(45deg, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+        
+        .skill-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .skill-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .skill {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            flex: 1;
+            min-width: 160px;
+            max-width: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(109, 40, 217, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .skill h3 {
+            font-size: 1.2rem;
+            margin: 12px 0 8px;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+        
+        .skill p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .skill-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #e74c3c;
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+        
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .contact-form {
+            flex: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--accent);
+            color: var(--text-primary);
+            border: none;
+            padding: 16px 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: var(--font-heading);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(109, 40, 217, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0;
+        }
+        
+        .social-link {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+        
+        .social-link:hover {
+            color: var(--accent);
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        @keyframes slideInTop {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .about-content,
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+            }
+            
+            .nav-links li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+            <!-- Cookie/Privacy Pop-up -->
+            <div id="cookie-popup" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-card);color:var(--text-primary);padding:20px 32px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.2);z-index:9999;display:none;">
+                <span>We use cookies and third-party analytics (Google Analytics, Inspectlet) to improve your experience. By using this site, you accept our <a href="privacy.html" style="color:var(--accent);text-decoration:underline;">Privacy Policy</a>.</span>
+                <button id="cookie-accept" style="margin-left:24px;padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;">Accept</button>
+            </div>
+            <script>
+                if (!localStorage.getItem('cookieAccepted')) {
+                    document.getElementById('cookie-popup').style.display = 'block';
+                }
+                document.getElementById('cookie-accept').onclick = function() {
+                    localStorage.setItem('cookieAccepted', 'yes');
+                    document.getElementById('cookie-popup').style.display = 'none';
+                };
+            </script>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">Carlos Camargo</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Header/Hero Section -->
+    <header id="home">
+        <div class="container hero-content">
+            <img src="assets/img/profile.jpg" alt="Carlos Camargo" class="profile-img">
+            <h1>Hi, I'm Carlos Camargo</h1>
+            <h2>Front End Developer</h2>
+            <p class="tagline">I design and build modern, engaging web experiences that delight users and drive results.</p>
+            <a href="#projects" class="btn">My Projects</a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p style="font-family: 'Space Grotesk', sans-serif;">I create interactive, visually appealing web interfaces using modern front-end technologies.</p>
+                        <p style="font-family: 'Space Grotesk', sans-serif;">With a keen eye for design and attention to detail, I transform ideas into clean, efficient, and visually appealing websites. My approach combines aesthetic sensibility with technical expertise to build engaging digital experiences.</p>
+                        <p style="font-family: 'Space Grotesk', sans-serif;">I'm passionate about web standards, responsive design, and creating intuitive user interfaces. I continuously explore new technologies and design trends to ensure my work stays current and innovative.</p>
+                    </div>
+                    <div class="about-img">
+                        <img src="assets/img/giphy.gif" style="width:100%; border-radius:16px;">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">Portfolio Projects</h2>
+                <div class="projects-grid">
+                    <!-- Crypto Wallet -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/crypto-wallet/assets/img/crypto-wallet-hero-image.jpg" alt="Crypto Wallet" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Crypto Wallet</h3>
+                            <p>Modern crypto wallet UI/UX project with a focus on digital finance and security.</p>
+                            <a href="portfolio/crypto-wallet/index.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+
+                    <!-- Fashion -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/fashion/assets/img/footwear.jpg" alt="Fashion" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Fashion</h3>
+                            <p>Trendy fashion e-commerce concept with product galleries and modern layouts.</p>
+                            <a href="portfolio/fashion/index.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+
+                    <!-- Project Hero (Gallery) -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/project-hero/assets/img/duotone.jpg" alt="Project Hero Gallery" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Project Hero Gallery</h3>
+                            <p>Gallery of hero block layouts and creative web design blocks.</p>
+                            <a href="portfolio/project-hero/index-1.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+
+                    <!-- Project Multi Column -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/project-multi column/assets/img/800x480-credit-card.jpg" alt="Multi Column Layouts" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Multi Column Layouts</h3>
+                            <p>Responsive multi-column layout gallery for modern web projects.</p>
+                            <a href="portfolio/project-multi column/index.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+
+                    <!-- Smoothies -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/smoothies/assets/img/smoothies-hero-image.jpg" alt="Smoothies" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Smoothies</h3>
+                            <p>Colorful e-commerce site for a smoothie brand, featuring product showcases and ordering.</p>
+                            <a href="portfolio/smoothies/index.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+
+                    <!-- Store -->
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="portfolio/store/assets/img/beautiful-web-design.png" alt="Store" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Store</h3>
+                            <p>Bookstore and resource hub for web design and development books.</p>
+                            <a href="portfolio/store/index.html" class="project-link">View Project →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title">My Skills</h2>
+                <h3 class="skills-subtitle">Front End Development</h3>
+                <div class="skills-container">
+                    <div class="skill">
+                        <div class="skill-icon">⚛️</div>
+                        <h3>React</h3>
+                    </div>
+                    
+                    <div class="skill">
+                        <div class="skill-icon">🎨</div>
+                        <h3>CSS3</h3>
+                    </div>
+                    
+                    <div class="skill">
+                        <div class="skill-icon">⚡</div>
+                        <h3>JavaScript</h3>
+                    </div>
+                    
+                    <div class="skill">
+                        <div class="skill-icon">📱</div>
+                        <h3>Responsive</h3>
+                    </div>
+
+                    <div class="skill">
+                        <div class="skill-icon">🎯</div>
+                        <h3>TypeScript</h3>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3>Let's Connect!</h3>
+                        <p>Have a project idea, collaboration, or just want to say hello? I'm always open to new opportunities and creative conversations. Reach out and let's build something great together!</p>
+                        <p>Email: 76214@Student.dorset-college.ie</p>
+                        <p>Location: Based in Ireland</p>
+                    </div>
+                    <div class="contact-form">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Carlos Camargo.</p>
+        </div>
+    </footer>
+</body>
+</html>
