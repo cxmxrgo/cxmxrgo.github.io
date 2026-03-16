@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Replace with your real name and student ID -->
+    <title>Carlos Camargo - 76124 - Counter Application</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      :root {
+        --clr-neutral: #222;
+        --clr-positive: #2ecc71;
+        --clr-negative: #e74c3c;
+        --clr-bg: #f5f6fa;
+        --clr-card: #ffffff;
+        --clr-primary: #3498db;
+        --clr-primary-dark: #2772a8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: linear-gradient(135deg, #8a2be2 0%, #32cd32 100%);
+        color: var(--clr-neutral);
+      }
+
+      .Counter.Application-wrapper {
+        background-color: var(--clr-card);
+        padding: 3.5rem 4rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.14);
+        text-align: center;
+        max-width: 480px;
+        width: 100%;
+      }
+
+      .Counter.Application-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #555;
+        margin-bottom: 1.5rem;
+      }
+
+      .value {
+        display: block;
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1.75rem;
+        color: var(--clr-neutral);
+        transition: color 0.2s ease, transform 0.12s ease;
+      }
+
+      .value.bump {
+        transform: scale(1.08);
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-top: 1.3rem;
+        width: 100%;
+        flex-wrap: nowrap;
+      }
+
+      .btn {
+        flex: 0 1 auto;
+        width: 130px;
+        min-width: 130px;
+        max-width: 150px;
+        border: 2px solid transparent;
+        outline: 2px solid rgba(0, 0, 0, 0.12);
+        outline-offset: 2px;
+        border-radius: 999px;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: #ecf0f1;
+        color: #333;
+        transition: background-color 0.15s ease, transform 0.12s ease,
+          box-shadow 0.12s ease, color 0.15s ease;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+      }
+
+      .btn i {
+        font-size: 0.9rem;
+      }
+
+      .btn:hover {
+        background-color: #dde4ea;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      #decrease {
+        color: var(--clr-negative);
+      }
+
+      #increase {
+        color: var(--clr-positive);
+      }
+
+      #reset {
+        background-color: var(--clr-primary);
+        color: #fff;
+      }
+
+      #reset:hover {
+        background-color: var(--clr-primary-dark);
+      }
+
+      @media (max-width: 480px) {
+        .Counter.Application-wrapper {
+          padding: 2rem 1.5rem;
+          margin: 1rem;
+        }
+
+        .value {
+          font-size: 3.2rem;
+        }
+
+        .btn-container {
+          flex-direction: column;
+        }
+
+        .btn {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="Counter Application-wrapper">
+      <h1 class="Counter Application-title">Counter Application</h1>
+      <span id="value" class="value">0</span>
+      <div class="btn-container">
+        <button class="btn" id="decrease">
+          <i class="fa-solid fa-circle-minus" aria-hidden="true"></i>
+          <span>Decrease</span>
+        </button>
+
+        <button class="btn" id="reset">
+          <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+          <span>Reset</span>
+        </button>
+
+        <button class="btn" id="increase">
+          <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+          <span>Increase</span>
+        </button>
+      </div>
+    </main>
+
+    <script>
+      let count = 0;
+
+      const valueSpan = document.getElementById("value");
+      const btnContainer = document.querySelector(".btn-container");
+
+      btnContainer.addEventListener("click", (e) => {
+        const target = e.target;
+
+        if (!target.closest(".btn")) return;
+
+        const btn = target.closest(".btn");
+
+        if (btn.id === "decrease") {
+          count--;
+        } else if (btn.id === "increase") {
+          count++;
+        } else if (btn.id === "reset") {
+          count = 0;
+        }
+
+        valueSpan.innerText = count;
+
+        valueSpan.classList.remove("bump");
+        void valueSpan.offsetWidth;
+        valueSpan.classList.add("bump");
+
+        if (count > 0) {
+          valueSpan.style.color = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--clr-positive");
+        } else if (count < 0) {
+          valueSpan.style.color = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--clr-negative");
+        } else {
+          valueSpan.style.color = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--clr-neutral");
+        }
+      });
+    </script>
+  </body>
+</html>
+

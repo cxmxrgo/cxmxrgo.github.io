@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote APIs – Carlos Camargo – 76214</title>
+    <style>
+      :root {
+        --bg: #050816;
+        --bg-elevated: #0f172a;
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.12);
+        --accent-strong: #0ea5e9;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --danger: #f97373;
+        --border-subtle: rgba(148, 163, 184, 0.3);
+        --radius-lg: 14px;
+        --radius-md: 10px;
+        --radius-pill: 999px;
+        --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+        --shadow-chip: 0 12px 30px rgba(15, 23, 42, 0.7);
+        --transition-fast: 180ms ease-out;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at top, #1d2538 0, #020617 55%);
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .app-shell {
+        max-width: 1120px;
+        width: 100%;
+        background: radial-gradient(circle at top left, #1e293b 0, #020617 55%);
+        border-radius: 24px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 22px 22px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .app-shell::before {
+        content: "";
+        position: absolute;
+        inset: -120px;
+        background:
+          radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.16) 0, transparent 50%),
+          radial-gradient(circle at 100% 0%, rgba(129, 140, 248, 0.16) 0, transparent 55%),
+          radial-gradient(circle at 0% 100%, rgba(45, 212, 191, 0.15) 0, transparent 55%);
+        opacity: 0.65;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      header {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .title-block {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .title-pill {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        background: radial-gradient(circle at 0 0, #38bdf8 0, #1d4ed8 40%, #020617 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #e0f2fe;
+        font-weight: 700;
+        font-size: 1.2rem;
+        box-shadow: 0 16px 35px rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(191, 219, 254, 0.45);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.35rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #e5e7eb;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .meta {
+        text-align: right;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .meta strong {
+        color: #e5e7eb;
+        font-weight: 600;
+      }
+
+      .controls-panel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 18px;
+        background: rgba(15, 23, 42, 0.86);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.75);
+      }
+
+      .primary-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 15px;
+        border-radius: var(--radius-pill);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.45) 0, rgba(15, 23, 42, 0.9) 40%);
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          background var(--transition-fast),
+          border-color var(--transition-fast),
+          transform var(--transition-fast),
+          box-shadow var(--transition-fast),
+          color var(--transition-fast);
+        box-shadow: var(--shadow-chip);
+      }
+
+      .chip-button span.badge {
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        color: #e5e7eb;
+      }
+
+      .chip-button span.label {
+        white-space: nowrap;
+      }
+
+      .chip-button[data-active="true"] {
+        background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.72) 0, rgba(15, 23, 42, 0.95) 45%);
+        border-color: rgba(56, 189, 248, 0.95);
+        color: #e0f2fe;
+        transform: translateY(-1px);
+        box-shadow: 0 18px 36px rgba(8, 47, 73, 0.95);
+      }
+
+      .chip-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.86);
+        border-color: rgba(148, 163, 184, 0.95);
+      }
+
+      .chip-button:active {
+        transform: translateY(0);
+        box-shadow: 0 10px 18px rgba(15, 23, 42, 0.9);
+      }
+
+      .chip-button:focus-visible {
+        outline: 2px solid var(--accent-strong);
+        outline-offset: 2px;
+      }
+
+      .chip-button--countries span.badge {
+        background: rgba(15, 23, 42, 0.85);
+        border-color: rgba(56, 189, 248, 0.8);
+      }
+
+      .chip-button--users span.badge {
+        background: rgba(15, 23, 42, 0.85);
+        border-color: rgba(96, 165, 250, 0.8);
+      }
+
+      .chip-button--rm span.badge {
+        background: rgba(15, 23, 42, 0.9);
+        border-color: rgba(168, 85, 247, 0.88);
+      }
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .field-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+      }
+
+      .field-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      select,
+      input[type="search"] {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text);
+        padding: 6px 11px;
+        font-size: 0.86rem;
+        min-width: 130px;
+        outline: none;
+        transition:
+          border-color var(--transition-fast),
+          box-shadow var(--transition-fast),
+          background var(--transition-fast);
+      }
+
+      select:focus,
+      input[type="search"]:focus {
+        border-color: var(--accent-strong);
+        box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+        background: rgba(15, 23, 42, 0.98);
+      }
+
+      input[type="search"] {
+        min-width: 160px;
+      }
+
+      .search-button {
+        border-radius: 999px;
+        border: 1px solid rgba(129, 140, 248, 0.9);
+        background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.9) 0, rgba(30, 64, 175, 0.95) 40%);
+        color: #e0f2fe;
+        padding: 6px 12px;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        cursor: pointer;
+        transition:
+          background var(--transition-fast),
+          transform var(--transition-fast),
+          box-shadow var(--transition-fast),
+          border-color var(--transition-fast);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+        white-space: nowrap;
+      }
+
+      .search-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 26px rgba(15, 23, 42, 0.9);
+        border-color: rgba(191, 219, 254, 0.9);
+      }
+
+      .search-button:active {
+        transform: translateY(0);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 4px 2px 0;
+      }
+
+      .status-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.85);
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+      }
+
+      .status-pill[data-state="idle"] .status-dot {
+        background: rgba(148, 163, 184, 0.8);
+        box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.2);
+      }
+
+      .status-pill[data-state="loading"] .status-dot {
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);
+      }
+
+      .status-pill[data-state="error"] .status-dot {
+        background: var(--danger);
+        box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.16);
+      }
+
+      .status-label {
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+      }
+
+      .status-description {
+        opacity: 0.9;
+      }
+
+      .results-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .results-count {
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        font-size: 0.76rem;
+      }
+
+      .results-count strong {
+        font-weight: 600;
+        color: #e5e7eb;
+      }
+
+      .hint {
+        font-size: 0.76rem;
+        color: var(--muted);
+        opacity: 0.95;
+      }
+
+      .grid {
+        margin-top: 4px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 12px;
+      }
+
+      .card {
+        background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95) 0, rgba(2, 6, 23, 0.98) 55%);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        padding: 12px 13px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.9);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16) 0, transparent 55%);
+        opacity: 0;
+        transition: opacity var(--transition-fast);
+        pointer-events: none;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card-title-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-title {
+        font-size: 0.98rem;
+        font-weight: 600;
+        color: #e5e7eb;
+      }
+
+      .card-tag {
+        font-size: 0.68rem;
+        padding: 3px 7px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.9);
+        background: rgba(15, 23, 42, 0.95);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .card-subtitle {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .card-body {
+        margin-top: 4px;
+        font-size: 0.78rem;
+        color: var(--text);
+      }
+
+      .card-body dl {
+        margin: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 10px;
+        row-gap: 2px;
+      }
+
+      .card-body dt {
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      .card-body dd {
+        margin: 0;
+      }
+
+      .flag {
+        width: 26px;
+        height: 18px;
+        border-radius: 4px;
+        object-fit: cover;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.9);
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.9) 0, rgba(30, 64, 175, 0.95) 40%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #e0f2fe;
+        border: 1px solid rgba(191, 219, 254, 0.95);
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+      }
+
+      .card-header-row {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .rm-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(248, 250, 252, 0.9);
+        object-fit: cover;
+        box-shadow: 0 12px 25px rgba(15, 23, 42, 0.95);
+      }
+
+      
+
+      footer {
+        margin-top: 6px;
+        padding-top: 8px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.5);
+        font-size: 0.75rem;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      footer code {
+        font-size: 0.75rem;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 2px 5px;
+        border-radius: 6px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 10px;
+        }
+
+        .app-shell {
+          padding: 16px 14px 18px;
+          border-radius: 20px;
+        }
+
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .meta {
+          text-align: left;
+        }
+
+        .controls-panel {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filters {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .primary-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .chip-button {
+          justify-content: center;
+          width: 100%;
+        }
+
+        .field-group {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        select,
+        input[type="search"] {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <div class="title-block">
+          <div class="title-pill">4</div>
+          <div>
+            <h1>Remote API Explorer</h1>
+            <p class="subtitle">Countries, JSONPlaceholder users, Rick &amp; Morty</p>
+          </div>
+        </div>
+        <div class="meta">
+          <div><strong>Carlos Camargo</strong></div>
+          <div>Student ID: <strong>76214</strong></div>
+        </div>
+      </header>
+
+      <section class="controls-panel" aria-label="API controls">
+        <div class="primary-actions">
+          <button
+            id="btn-countries"
+            class="chip-button chip-button--countries"
+            type="button"
+          >
+            <span class="badge">1</span>
+            <span class="label">Fetch Countries</span>
+          </button>
+          <button
+            id="btn-users"
+            class="chip-button chip-button--users"
+            type="button"
+          >
+            <span class="badge">2</span>
+            <span class="label">Fetch Users</span>
+          </button>
+          <button
+            id="btn-rm"
+            class="chip-button chip-button--rm"
+            type="button"
+          >
+            <span class="badge">3</span>
+            <span class="label">Fetch Rick &amp; Morty</span>
+          </button>
+        </div>
+
+        <div class="filters">
+          <div class="field-group" aria-label="Filter countries by region">
+            <span class="field-label">Region</span>
+            <select id="region-select">
+              <option value="europe">Europe</option>
+              <option value="africa">Africa</option>
+              <option value="americas">Americas</option>
+              <option value="asia">Asia</option>
+              <option value="oceania">Oceania</option>
+            </select>
+          </div>
+
+          <div class="field-group rm-search-group" aria-label="Search Rick and Morty characters" hidden>
+            <span class="field-label">Character</span>
+            <input
+              id="rm-search"
+              type="search"
+              placeholder="e.g. Rick, Morty, Beth..."
+              aria-label="Search Rick and Morty characters"
+            />
+            <button id="rm-search-btn" class="search-button" type="button">
+              Search
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <div class="status-row">
+          <div
+            id="status-pill"
+            class="status-pill"
+            data-state="idle"
+            aria-live="polite"
+          >
+            <span class="status-dot"></span>
+            <span id="status-label" class="status-label">Idle</span>
+            <span id="status-description" class="status-description">
+              Choose an API to fetch data.
+            </span>
+          </div>
+          <div class="results-meta">
+            <span id="results-count" class="results-count" hidden aria-live="polite">
+              <strong>0</strong> results
+            </span>
+            <span class="hint">
+              Tip: change region or search and fetch again.
+            </span>
+          </div>
+        </div>
+
+        <section
+          id="results"
+          class="grid"
+          aria-label="API results"
+        ></section>
+      </main>
+
+      
+        <span>
+          Endpoints:
+          <code>restcountries.com</code>,
+          <code>jsonplaceholder.typicode.com</code>,
+          <code>rickandmortyapi.com</code>
+        </span>
+      </footer>
+    </div>
+
+    <script>
+      
+      const btnCountries = document.getElementById("btn-countries");
+      const btnUsers = document.getElementById("btn-users");
+      const btnRm = document.getElementById("btn-rm");
+      const regionSelect = document.getElementById("region-select");
+      const rmSearchInput = document.getElementById("rm-search");
+      const rmSearchBtn = document.getElementById("rm-search-btn");
+      const statusPill = document.getElementById("status-pill");
+      const statusLabel = document.getElementById("status-label");
+      const statusDescription = document.getElementById("status-description");
+      const resultsContainer = document.getElementById("results");
+      const resultsCount = document.getElementById("results-count");
+      const rmSearchGroup = document.querySelector(".rm-search-group");
+
+      
+      function setStatus(state, description) {
+        const map = {
+          idle: "Idle",
+          loading: "Loading…",
+          done: "Complete",
+          error: "Error",
+        };
+        statusPill.dataset.state = state === "done" ? "idle" : state;
+        statusLabel.textContent = map[state] || "Status";
+        if (description) {
+          statusDescription.textContent = description;
+        }
+
+        
+        if (state !== "error") {
+          clearError();
+        }
+      }
+
+      
+      function setActiveButton(activeButton) {
+        [btnCountries, btnUsers, btnRm].forEach((btn) => {
+          btn.dataset.active = btn === activeButton ? "true" : "false";
+        });
+
+        if (activeButton === btnRm) {
+          rmSearchGroup.hidden = false;
+        } else {
+          rmSearchGroup.hidden = true;
+        }
+      }
+
+      
+      function updateResultsCount(count, label) {
+        if (!Number.isFinite(count)) {
+          resultsCount.hidden = true;
+          return;
+        }
+        resultsCount.hidden = false;
+        resultsCount.innerHTML = `<strong>${count}</strong> ${label || "results"}`;
+      }
+
+      
+      function clearError() {
+        
+      }
+
+      
+      function renderCards(htmlContent) {
+        resultsContainer.innerHTML = htmlContent;
+      }
+
+      // ---- COUNTRIES -------------------------------------------------------
+      async function fetchCountries(showError = true) {
+        const region = regionSelect.value || "europe";
+        const url = `https://restcountries.com/v3.1/region/${encodeURIComponent(
+          region
+        )}`;
+
+        setActiveButton(btnCountries);
+        clearError();
+        setStatus("loading", `Fetching countries in the ${region} region…`);
+        updateResultsCount(0, "results");
+        renderCards("");
+
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status} – ${response.statusText}`);
+          }
+
+          const countries = await response.json();
+
+          if (!Array.isArray(countries) || countries.length === 0) {
+            updateResultsCount(0, "results");
+            renderCards("");
+            setStatus("done", "No countries found for this region.");
+            return;
+          }
+
+          const cards = countries
+            .map((country) => {
+              const name = country.name?.common || "Unknown country";
+              const capital = Array.isArray(country.capital)
+                ? country.capital[0]
+                : country.capital || "Unknown";
+              const population = country.population?.toLocaleString?.() ?? "–";
+              const regionName = country.region || region;
+              const flagUrl = country.flags?.png || country.flags?.svg || "";
+
+              return `
+                <article class="card">
+                  <div class="card-title-line">
+                    <div class="card-header-row">
+                      ${
+                        flagUrl
+                          ? `<img src="${flagUrl}" alt="Flag of ${name}" class="flag" loading="lazy" />`
+                          : ""
+                      }
+                      <h2 class="card-title">${name}</h2>
+                    </div>
+                    <span class="card-tag">${regionName}</span>
+                  </div>
+                  <div class="card-body">
+                    <dl>
+                      <dt>Capital</dt>
+                      <dd>${capital}</dd>
+                      <dt>Population</dt>
+                      <dd>${population}</dd>
+                    </dl>
+                  </div>
+                </article>
+              `;
+            })
+            .join("");
+
+          renderCards(cards);
+          updateResultsCount(countries.length, "countries");
+          setStatus("done", `Loaded ${countries.length} countries from ${region}.`);
+        } catch (error) {
+          console.error("Countries API error:", error);
+          renderCards("");
+          updateResultsCount(0, "results");
+          setStatus("idle", "Initial countries load failed; click Fetch Countries to retry.");
+        }
+      }
+
+      
+      async function fetchUsers() {
+        const url = "https://jsonplaceholder.typicode.com/users";
+
+        setActiveButton(btnUsers);
+        clearError();
+        setStatus("loading", "Fetching JSONPlaceholder users…");
+        updateResultsCount(0, "results");
+        renderCards("");
+
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status} – ${response.statusText}`);
+          }
+
+          const users = await response.json();
+
+          if (!Array.isArray(users) || users.length === 0) {
+            updateResultsCount(0, "results");
+            renderCards("");
+            setStatus("done", "No users returned from the API.");
+            return;
+          }
+
+          const cards = users
+            .map((user) => {
+              const initials = (user.name || "?")
+                .split(" ")
+                .map((part) => part[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase();
+
+              return `
+                <article class="card">
+                  <div class="card-title-line">
+                    <div class="card-header-row">
+                      <div class="avatar" aria-hidden="true">${initials}</div>
+                      <div>
+                        <h2 class="card-title">${user.name}</h2>
+                        <p class="card-subtitle">@${user.username}</p>
+                      </div>
+                    </div>
+                    <span class="card-tag">User</span>
+                  </div>
+                  <div class="card-body">
+                    <dl>
+                      <dt>Email</dt>
+                      <dd>${user.email}</dd>
+                      <dt>Company</dt>
+                      <dd>${user.company?.name || "–"}</dd>
+                      <dt>City</dt>
+                      <dd>${user.address?.city || "–"}</dd>
+                    </dl>
+                  </div>
+                </article>
+              `;
+            })
+            .join("");
+
+          renderCards(cards);
+          updateResultsCount(users.length, "users");
+          setStatus("done", `Loaded ${users.length} JSONPlaceholder users.`);
+        } catch (error) {
+          console.error("Users API error:", error);
+          renderCards("");
+          updateResultsCount(0, "results");
+          setStatus("error", "Could not load user data.");
+        }
+      }
+
+      
+      async function fetchRickAndMorty() {
+        const baseUrl = "https://rickandmortyapi.com/api/character";
+        const searchTerm = rmSearchInput.value.trim();
+        const url =
+          searchTerm.length > 0
+            ? `${baseUrl}/?name=${encodeURIComponent(searchTerm)}`
+            : baseUrl;
+
+        setActiveButton(btnRm);
+        clearError();
+        setStatus("loading", "Fetching Rick & Morty characters…");
+        updateResultsCount(0, "results");
+        renderCards("");
+
+        try {
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            if (response.status === 404) {
+              setStatus("done", "No characters matched this search term.");
+              renderCards("");
+              updateResultsCount(0, "characters");
+              return;
+            }
+            throw new Error(`HTTP ${response.status} – ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          const characters = data.results || [];
+
+          if (characters.length === 0) {
+            setStatus("done", "No characters returned from the API.");
+            renderCards("");
+            updateResultsCount(0, "characters");
+            return;
+          }
+
+          const cards = characters
+            .slice(0, 24)
+            .map((character) => {
+              const { name, status, species, image, origin } = character;
+
+              return `
+                <article class="card">
+                  <div class="card-title-line">
+                    <div class="card-header-row">
+                      ${
+                        image
+                          ? `<img src="${image}" alt="${name}" class="rm-image" loading="lazy" />`
+                          : ""
+                      }
+                      <div>
+                        <h2 class="card-title">${name}</h2>
+                        <p class="card-subtitle">${status} · ${species}</p>
+                      </div>
+                    </div>
+                    <span class="card-tag">Character</span>
+                  </div>
+                  <div class="card-body">
+                    <dl>
+                      <dt>Origin</dt>
+                      <dd>${origin?.name || "Unknown"}</dd>
+                      <dt>Status</dt>
+                      <dd>${status}</dd>
+                    </dl>
+                  </div>
+                </article>
+              `;
+            })
+            .join("");
+
+          renderCards(cards);
+          updateResultsCount(characters.length, "characters");
+          setStatus(
+            "done",
+            `Loaded ${characters.length} Rick & Morty characters${
+              searchTerm ? ` matching “${searchTerm}”.` : "."
+            }`
+          );
+        } catch (error) {
+          console.error("Rick & Morty API error:", error);
+          renderCards("");
+          updateResultsCount(0, "results");
+          setStatus("error", "Could not load Rick & Morty data.");
+        }
+      }
+      
+      btnCountries.addEventListener("click", fetchCountries);
+      btnUsers.addEventListener("click", fetchUsers);
+      btnRm.addEventListener("click", fetchRickAndMorty);
+
+      rmSearchBtn.addEventListener("click", fetchRickAndMorty);
+      rmSearchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          fetchRickAndMorty();
+        }
+      });
+
+      fetchCountries(false).catch((error) => {
+        console.warn("Initial countries fetch failed:", error);
+      });
+    </script>
+  </body>
+</html>
