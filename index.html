@@ -375,12 +375,20 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .project-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
+        }
+
+        .project-placeholder {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
         }
         
         .project-card:hover .project-img img {
@@ -422,6 +430,16 @@
             gap: 12px;
         }
 
+        .project-link--disabled {
+            color: var(--text-secondary);
+            cursor: default;
+            gap: 8px;
+        }
+
+        .project-link--disabled:hover {
+            color: var(--text-secondary);
+            gap: 8px;
+        }
         /* Skills Section */
         .skills-grid {
             display: grid;
@@ -769,80 +787,55 @@
         <section id="projects">
             <div class="container">
                 <h2 class="section-title">Portfolio Projects</h2>
-                <div class="projects-grid">
-                    <!-- Crypto Wallet -->
+                                <div class="projects-grid">
+                    <!-- Colours -->
                     <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/crypto-wallet/assets/img/crypto-wallet-hero-image.jpg" alt="Crypto Wallet" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="project-img" style="background: linear-gradient(135deg, #111827, #1f2937);">
+                            <span class="project-placeholder">Colours</span>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Crypto Wallet</h3>
-                            <p>Modern crypto wallet UI/UX project with a focus on digital finance and security.</p>
-                            <a href="portfolio/crypto-wallet/index.html" class="project-link">View Project →</a>
+                            <h3 class="project-title">Colours</h3>
+                            <p>Random background colour generator with a clean, card-based UI.</p>
+                            <a href="portfolio/colours/index.html" class="project-link">View Project &rarr;</a>
                         </div>
                     </div>
 
-                    <!-- Fashion -->
+                    <!-- Counter -->
                     <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/fashion/assets/img/footwear.jpg" alt="Fashion" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="project-img" style="background: linear-gradient(135deg, #2ecc71, #3498db);">
+                            <span class="project-placeholder">Counter</span>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Fashion</h3>
-                            <p>Trendy fashion e-commerce concept with product galleries and modern layouts.</p>
-                            <a href="portfolio/fashion/index.html" class="project-link">View Project →</a>
+                            <h3 class="project-title">Counter</h3>
+                            <p>Interactive counter app with positive and negative state styling.</p>
+                            <a href="portfolio/counter/index.html" class="project-link">View Project &rarr;</a>
                         </div>
                     </div>
 
-                    <!-- Project Hero (Gallery) -->
+                    <!-- Remote APIs -->
                     <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/project-hero/assets/img/duotone.jpg" alt="Project Hero Gallery" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="project-img" style="background: linear-gradient(135deg, #0ea5e9, #1e293b);">
+                            <span class="project-placeholder">Remote APIs</span>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Project Hero Gallery</h3>
-                            <p>Gallery of hero block layouts and creative web design blocks.</p>
-                            <a href="portfolio/project-hero/index-1.html" class="project-link">View Project →</a>
+                            <h3 class="project-title">Remote APIs</h3>
+                            <p>Data-driven interface that highlights API requests and results.</p>
+                            <a href="portfolio/remote-apis/index.html" class="project-link">View Project &rarr;</a>
                         </div>
                     </div>
 
-                    <!-- Project Multi Column -->
+                    <!-- Login -->
                     <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/project-multi column/assets/img/800x480-credit-card.jpg" alt="Multi Column Layouts" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="project-img" style="background: linear-gradient(135deg, #111827, #7c3aed);">
+                            <span class="project-placeholder">Login</span>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Multi Column Layouts</h3>
-                            <p>Responsive multi-column layout gallery for modern web projects.</p>
-                            <a href="portfolio/project-multi column/index.html" class="project-link">View Project →</a>
+                            <h3 class="project-title">Login</h3>
+                            <p>Authentication flow concept currently in progress.</p>
+                            <span class="project-link project-link--disabled">Coming soon</span>
                         </div>
                     </div>
-
-                    <!-- Smoothies -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/smoothies/assets/img/smoothies-hero-image.jpg" alt="Smoothies" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Smoothies</h3>
-                            <p>Colorful e-commerce site for a smoothie brand, featuring product showcases and ordering.</p>
-                            <a href="portfolio/smoothies/index.html" class="project-link">View Project →</a>
-                        </div>
-                    </div>
-
-                    <!-- Store -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="portfolio/store/assets/img/beautiful-web-design.png" alt="Store" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Store</h3>
-                            <p>Bookstore and resource hub for web design and development books.</p>
-                            <a href="portfolio/store/index.html" class="project-link">View Project →</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </div>            </div>
         </section>
         
         <!-- Skills Section -->
@@ -921,3 +914,4 @@
     </footer>
 </body>
 </html>
+
